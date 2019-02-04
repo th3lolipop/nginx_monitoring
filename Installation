@@ -20,6 +20,7 @@ server {
    	stub_status on;     
     access_log   off;     
     allow 127.0.0.1;
+    allow 192.168.1.0/24;
     deny all; }
 }
 :wq # ---> save and quit
@@ -40,7 +41,9 @@ ________________________________________
 Part 3 (Zabbix agent side):
 1 - Edit zabbix_agentd.conf file on Nginx server and add UserParameter:
 # vi /etc/zabbix/zabbix_agentd.conf 
+
 UserParameter=nginx[*],/etc/zabbix/nginx.sh $1
+
 :wq # ---> save and quit
 
 2 - Restart zabbix-agent service: 
@@ -51,4 +54,4 @@ Part 4 (Zabbix frontend side):
 1 - Download nginx_template.xml template and import it to your zabbix server from ---> Configuration -> Templates -> Import 
 2 - Link imported template to your Nginx host 
 
-Finish
+Enjoy ^_^
