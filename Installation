@@ -38,9 +38,9 @@ Part 2 (Linux side):
 ________________________________________
 
 Part 3 (Zabbix agent side):
-1 - Edit zabbix_agent.conf file on Nginx server and add UserParameter:
-# vi /etc/zabbix/zabbix-agent.conf 
-UserParameter=nginx[*],/root/nginx.sh $1
+1 - Edit zabbix_agentd.conf file on Nginx server and add UserParameter:
+# vi /etc/zabbix/zabbix_agentd.conf 
+UserParameter=nginx[*],/etc/zabbix/nginx.sh $1
 :wq # ---> save and quit
 
 2 - Restart zabbix-agent service: 
