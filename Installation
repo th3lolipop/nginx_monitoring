@@ -25,7 +25,14 @@ server {
 }
 :wq # ---> save and quit
 
-2 - Restart nginx service 
+2 - Firstly run the script manually 
+# ./nginx.sh 
+
+If there was an error occur run this command
+# sed -i -e 's/\r$//' nginx.sh
+
+
+3 - Restart nginx service 
 systemctl restart nginx
 ________________________________________
 
