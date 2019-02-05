@@ -3,6 +3,7 @@ HOST="127.0.0.1"
 PORT="80"
 stub_status=nginx_status
 pidof_addr=`which pidof`
+
 function check() {
         if [ -f $pidof_addr ]; then
            $pidof_addr nginx | wc -w
@@ -39,10 +40,10 @@ function worker_processes(){
         worker_processes=`$pidof_addr nginx | wc -w`; echo "$worker_processes - 1" | bc
 }
 function worker_connections(){
-        cat /usr/local/nginx/conf/nginx.conf | grep worker_connections | awk '{print $2}' | sed 's/\;//'
+        cat /etc/nginx/nginx.conf | grep worker_connections | awk '{print $2}' | sed 's/\;//'
 }
 function max_connections(){
-        worker_processes=`ps ax | grep nginx | grep -v grep | wc -l`;wkr_proce=`echo "$worker_processes - 1" | bc`;wkr_conn=`cat /usr/local/nginx/conf/nginx.conf | grep worker_connections | awk '{print $2}' | sed 's/\;//'`;echo "$wkr_conn*$wkr_proce" | bc
+        worker_processes=`ps ax | grep nginx | grep -v grep | wc -l`;wkr_proce=`echo "$worker_processes - 1" | bc`;wkr_conn=`cat /etc/nginx/nginx.conf | grep worker_connections | awk '{print $2}' | sed 's/\;//'`;echo "$wkr_conn*$wkr_proce" | bc
 }
 function max_file_descriptors(){
         cat /proc/sys/fs/file-nr | awk '{print $3}'
@@ -55,45 +56,36 @@ function req_per_conn(){
 }
 
 case "$1" in
-        check)
-                check
-                ;;
-        active)
-                active
-                ;;
-        accepts)
-                accepts
-                ;;
-        handled)
-                handled
-                ;;
-        requests)
-                requests
-                ;;
-        reading)
-                reading
-                ;;
-        writing)
-                writing
-                ;;
-        waiting)
-                waiting
-                ;;
-        cpu_cores)
-                cpu_cores;;
-        worker_processes)
-                worker_processes;;
-        worker_connections)
-                worker_connections;;
-        max_connections)
-                max_connections;;
-        max_file_descriptors)
-                max_file_descriptors;;
-        open_file_descriptors)
-                open_file_descriptors;;
-        req_per_conn)
-                req_per_conn;;
-        *)
-                echo $"Usage $0 {check|active|accepts|handled|requests|reading|writing|waiting|cpu_cores|worker_processes|worker_connections|max_connections|max_file_descriptors|open_file_descriptors|req_per_conn}"
-                exit
-esac
+        check) check
+        ;;
+        active) active
+        ;;
+        accepts) accepts
+        ;;
+        handled) handled
+        ;;
+        requests) requests
+        ;;
+        reading) reading
+        ;;
+        writing) writing
+	;;
+        waiting) waiting
+	;;
+        cpu_cores) cpu_cores
+	;;
+        worker_processes) worker_processes
+	;;
+        worker_connections) worker_connections
+	;;
+        max_connections) max_connections
+	;;
+        max_file_descriptors) max_file_descriptors
+	;;
+        open_file_descriptors) open_file_descriptors
+	;;
+        req_per_conn) req_per_con
+	;;
+        *) echo "Usage $0 {check|active|accepts|handled|requests|reading|writing|waiting|cpu_cores|worker_processes|worker_connections|max_connections|max_file_descriptors|open_file_descriptors|req_per_conn}"
+           exit
+esae
